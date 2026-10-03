@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TV Monde</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">📺 <span>TV Monde</span></div>
+    <input id="search" type="search" placeholder="Rechercher une chaîne…  ( / )" autocomplete="off">
+    <select id="country"><option value="">🌍 Tous les pays</option></select>
+    <select id="category"><option value="">Toutes catégories</option></select>
+    <button id="favToggle" class="chip" title="Afficher seulement les favoris">★ Favoris</button>
+    <button id="importBtn" class="chip" title="Charger une playlist M3U">＋ M3U</button>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div id="status" class="status">Chargement des chaînes…</div>
+      <ul id="list" class="list" role="listbox" tabindex="0"></ul>
+    </aside>
+
+    <section class="stage">
+      <div class="player">
+        <video id="video" controls playsinline autoplay></video>
+        <div id="overlay" class="overlay">
+          <p>Choisis une chaîne dans la liste pour commencer.</p>
+          <p class="hint">Raccourcis : <kbd>↑</kbd><kbd>↓</kbd> chaîne précédente / suivante · <kbd>F</kbd> plein écran · <kbd>M</kbd> muet · <kbd>/</kbd> rechercher</p>
+        </div>
+      </div>
+      <div class="now">
+        <img id="nowLogo" alt="">
+        <div class="now-text">
+          <h1 id="nowName">—</h1>
+          <p id="nowMeta"></p>
+        </div>
+        <button id="nowFav" class="chip" hidden>☆ Favori</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="importDialog">
+    <form method="dialog" class="import">
+      <h2>Charger une playlist M3U</h2>
+      <label>URL de la playlist
+        <input id="m3uUrl" type="url" placeholder="https://exemple.com/playlist.m3u">
+      </label>
+      <label>…ou un fichier local
+        <input id="m3uFile" type="file" accept=".m3u,.m3u8,audio/x-mpegurl">
+      </label>
+      <menu>
+        <button value="cancel" class="chip">Annuler</button>
+        <button id="m3uLoad" value="ok" class="chip primary">Charger</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
