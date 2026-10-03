@@ -13,7 +13,8 @@ Il faut seulement **Python 3** (aucune installation de paquet) et une connexion 
 | Système        | Commande                                  |
 |----------------|-------------------------------------------|
 | Windows        | double-clic sur `lancer.bat`              |
-| macOS / Linux  | `./lancer.sh` (ou `python3 server.py`)    |
+| macOS          | double-clic sur `TV Monde.command`        |
+| Linux          | `./lancer.sh` (ou `python3 server.py`)    |
 
 Le navigateur s'ouvre tout seul sur <http://127.0.0.1:8000>. Si le port 8000 est déjà
 utilisé par une autre application, l'appli prend automatiquement le suivant (8001, 8002…)
