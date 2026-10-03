@@ -15,7 +15,9 @@ Il faut seulement **Python 3** (aucune installation de paquet) et une connexion 
 | Windows        | double-clic sur `lancer.bat`              |
 | macOS / Linux  | `./lancer.sh` (ou `python3 server.py`)    |
 
-Le navigateur s'ouvre tout seul sur <http://localhost:8000>.
+Le navigateur s'ouvre tout seul sur <http://127.0.0.1:8000>. Si le port 8000 est déjà
+utilisé par une autre application, l'appli prend automatiquement le suivant (8001, 8002…)
+et affiche la bonne adresse dans la fenêtre du terminal.
 Autre port : `python3 server.py 9000`. Sans ouvrir le navigateur : `--no-browser`.
 
 > On peut aussi ouvrir `index.html` directement, mais beaucoup de chaînes ne

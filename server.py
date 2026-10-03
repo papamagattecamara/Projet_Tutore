@@ -22,6 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 _ARGS = [a for a in sys.argv[1:] if not a.startswith("--")]
 PORT = int(_ARGS[0]) if _ARGS else 8000
+PORT_TRIES = 30  # si le port est déjà pris, on essaie les suivants
 DEFAULT_UA = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
@@ -146,12 +147,26 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 class Server(socketserver.ThreadingMixIn, http.server.HTTPServer):
     daemon_threads = True
-    allow_reuse_address = True
+    # Désactivé : sous Windows, cette option permettrait de « voler » un port
+    # déjà utilisé par une autre application au lieu de signaler le conflit.
+    allow_reuse_address = False
+
+
+def start_server():
+    for port in range(PORT, PORT + PORT_TRIES):
+        try:
+            return Server(("127.0.0.1", port), Handler), port
+        except OSError:
+            print(f"Port {port} déjà utilisé, essai du suivant…")
+    sys.exit(f"Aucun port libre entre {PORT} et {PORT + PORT_TRIES - 1}.")
 
 
 if __name__ == "__main__":
-    with Server(("127.0.0.1", PORT), Handler) as httpd:
-        url = f"http://localhost:{PORT}/"
+    server, port = start_server()
+    with server as httpd:
+        # 127.0.0.1 plutôt que « localhost » : évite de tomber sur une autre
+        # application qui écouterait sur le même port en IPv6.
+        url = f"http://127.0.0.1:{port}/"
         print(f"TV Monde est lancé sur {url}  (Ctrl+C pour arrêter)")
         if "--no-browser" not in sys.argv:
             try:
